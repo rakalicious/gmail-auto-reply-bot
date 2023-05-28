@@ -7,7 +7,7 @@ const schedule = require('node-schedule');
 async function processEmailsForAutoReply() {
   try {
     let currentDate = new Date().getTime()
-    currentDate -= 1200000
+    currentDate -= 120000 // 120 seconds before current time (max time that we'll get from random function)
     const client = await authorize()
     if (!client) {
       throw new Error(`Error in authenticating`)
@@ -27,10 +27,11 @@ async function processEmailsForAutoReply() {
       }
     }
     console.log(`Error: in following message ids ${errorMessageList}`)
-    scheduleNextWorker()
   } catch (error) {
     console.log(`Error: In AutoReplyWorker ${error.message} ${error.stack}`)
     throw error
+  } finally {
+    scheduleNextWorker() // schedules worker once done
   }
 }
 

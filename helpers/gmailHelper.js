@@ -35,10 +35,13 @@ async function listMessages(gmail, labelId, startTime) {
     const res = await gmail.users.messages.list({
       maxResults: 500,
       pageToken: 1,
-      q: `after:${parseInt(startTime/1000)}`,
+      q: `after:${parseInt(startTime/1000)}`, // startTime is in epoch time with milliseconds
       userId: CONSTANTS.FROM_EMAIL,
     });
     let messages = res.data.messages;
+    if (!messages) {
+      throw new Error("No new Messages found")
+    }
     let processableMessages = await Promise.all(messages.map(async (message) => {
       let messageDetail = await getMessageDetails(gmail, message.threadId)
       if (messageDetail.labelIds.includes(labelId)) {
