@@ -9,7 +9,7 @@
 ### Features Provided
 - The email to be used for this bot should be provided in config/constants.js => FROM_EMAIL
 - The worker is enqued after 45-120 sec after each worker completion
-- A label named *listedFansLabel* is created if not already present in gmail
+- A label named **listedFansLabel** is created if not already present in gmail
 - Each time the worker runs, it
   - creates the label if not present
   - fetches all the mails received in last 120 sec
